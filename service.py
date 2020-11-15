@@ -16,8 +16,17 @@ class Validation:
                  'ExpirationDate': isinstance(self.ExpirationDate, str),
                  'Amount': isinstance(self.Amount, float)}
 
+        """ If the json contains Security Code """
         if self.SecurityCode:
             check['SecurityCode'] = isinstance(self.SecurityCode, str)
+
+        """ If the json ExpirationDate matches the format """
+        try:
+            datetime.strptime(self.ExpirationDate,"%d/%m/%Y")
+        except ValueError:
+            check['ExpirationDate'] = False
+
+        """ If any of the parameter fails the validation """
         validate = [k for k, v in check.items() if v is False]
         if len(validate) > 0 and validate:
             return False
@@ -43,9 +52,12 @@ class Validation:
         check['ExpirationDate'] = True if datetime.now().date() < datetime.strptime(self.ExpirationDate,
                                                                                     "%d/%m/%Y").date() else False
         check['Amount'] = True if self.Amount > 0 else False
+
+        """ If the json contains Security Code """
         if self.SecurityCode:
             check['SecurityCode'] = True if len(self.SecurityCode) is 3 else False
 
+        """ If any of the parameter fails the validation """
         validate = [k for k, v in check.items() if v is False]
         if len(validate) > 0 and validate:
             return False
