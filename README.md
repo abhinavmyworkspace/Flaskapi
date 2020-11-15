@@ -7,7 +7,7 @@ Flask API for Payment indludes validation for the parameters provided via json r
 
 service.py contains validation of parameters
 
-payment.py contains payemt methods
+payment.py contains payment methods
 
 app.py contains the main logic
 
